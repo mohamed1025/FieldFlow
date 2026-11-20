@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: syntrix-serviceops
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    disk:
+      name: syntrix-serviceops-files
+      mountPath: /app/storage
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PGSSL
+        value: "true"
+      - key: APP_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_TRANSCRIBE_MODEL
+        value: gpt-4o-mini-transcribe
+      - key: OPENAI_REPORT_MODEL
+        value: gpt-4o-mini

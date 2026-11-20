@@ -1,0 +1,92 @@
+node_modules/
+.env
+client/dist/
+storage/*
+!storage/.gitkeep
+.DS_Store
+
+# FieldFlow security and local files
+.env
+.env.*
+!.env.example
+
+# Dependencies and builds
+node_modules/
+dist/
+coverage/
+.cache/
+
+# Private files and local data
+certs/
+**/certs/
+uploads/
+**/uploads/
+storage/*
+!storage/.gitkeep
+backup*/
+**/backup*/
+
+# Local databases, logs and archives
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.zip
+*.dump
+*.bak
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Hosting and OS files
+.vercel/
+.DS_Store
+Thumbs.db
+
+# FieldFlow security and local files
+.env
+.env.*
+!.env.example
+
+# Dependencies and builds
+node_modules/
+dist/
+coverage/
+.cache/
+
+# Private files and local data
+certs/
+**/certs/
+uploads/
+**/uploads/
+storage/*
+!storage/.gitkeep
+backup*/
+**/backup*/
+
+# Local databases, logs and archives
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.zip
+*.dump
+*.bak
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Hosting and OS files
+.vercel/
+.DS_Store
+Thumbs.db
+
+# Local backup files
+*.backup-*
+
+# Local backups and Supabase temporary metadata
+*.backup-*
+supabase/.temp/
+ersmohamedDesktopsyntrix-serviceops
