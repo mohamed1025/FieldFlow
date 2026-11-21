@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production' && (!JWT_SECRET || JWT_SECRET.length <
 }
 if (!JWT_SECRET || JWT_SECRET.length < 32) console.warn('WARNING: Set JWT_SECRET to a random value of at least 32 characters before production.');
 const secret = JWT_SECRET || 'development-only-secret-change-before-production-000000';
-const storageDir = path.resolve(__dirname, '..', 'storage');
+const storageDir = process.env.VERCEL ? path.join('/tmp', 'fieldflow-storage') : path.resolve(__dirname, '..', 'storage');
 fs.mkdirSync(storageDir, { recursive: true });
 
 app.set('trust proxy', 1);
@@ -584,15 +584,41 @@ app.use((err,req,res,_next)=>{
 const dist=path.resolve(__dirname,'..','client','dist');
 if(fs.existsSync(dist)){
   app.use(express.static(dist,{index:false}));
-  app.get('*',(req,res)=>{if(req.path.startsWith('/api/'))return res.status(404).json({error:'المسار غير موجود.'});res.sendFile(path.join(dist,'index.html'));});
+  app.get('*',(req,res)=>{if(req.path.startsWith('/api/'))return res.status(404).json({error:'المسار غيlet initializationPromise = null;
+
+async function initializeFieldFlow(options = {}) {
+  if (!initializationPromise) {
+    initializationPromise = (async () => {
+      if (options.runMigrations === true) {
+        await initDatabase();
+        await initOptimizationSchema(pool);
+      }
+
+      await pool.query('SELECT 1');
+    })().catch((error) => {
+      initializationPromise = null;
+      throw error;
+    });
+  }
+
+  return initializationPromise;
 }
 
-(async()=>{
-  await initDatabase();
-  await initOptimizationSchema(pool);
-  app.listen(PORT,'0.0.0.0',()=>{
-    console.log(`FieldFlow listening on :${PORT}`);
-    console.log(`Voice AI provider: ${process.env.GROQ_API_KEY?.trim()?'Groq Cloud':'DISABLED - add GROQ_API_KEY to .env'}`);
-    console.log('API version: 1.3.0');
-  });
-})().catch(err=>{console.error('Startup failed:',err);process.exit(1);});
+app.initializeFieldFlow = initializeFieldFlow;
+module.exports = app;
+
+// Local development: preserve the existing npm start behavior.
+if (require.main === module) {
+  initializeFieldFlow({ runMigrations: true })
+    .then(() => {
+      app.listen(PORT, '0.0.0.0', () => {
+        console.log(`FieldFlow listening on :${PORT}`);
+        console.log(`Voice AI provider: ${process.env.GROQ_API_KEY?.trim() ? 'Groq Cloud' : 'DISABLED - add GROQ_API_KEY to .env'}`);
+        console.log('API version: 1.3.0');
+      });
+    })
+    .catch((error) => {
+      console.error('Startup failed:', error);
+      process.exitCode = 1;
+    });
+}
