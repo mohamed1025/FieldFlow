@@ -1,8 +1,8 @@
-﻿{
+{
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "client/dist",
   "functions": {
-    "api/[...path].js": {
+    "api/**/*.js": {
       "includeFiles": "server/**",
       "maxDuration": 60
     }
