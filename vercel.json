@@ -3,7 +3,7 @@
   "outputDirectory": "client/dist",
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "server/**",
+      "includeFiles": "{server/**,certs/supabase-ca.crt}",
       "maxDuration": 60
     }
   },
