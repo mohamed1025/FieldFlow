@@ -584,7 +584,10 @@ app.use((err,req,res,_next)=>{
 const dist=path.resolve(__dirname,'..','client','dist');
 if(fs.existsSync(dist)){
   app.use(express.static(dist,{index:false}));
-  app.get('*',(req,res)=>{if(req.path.startsWith('/api/'))return res.status(404).json({error:'المسار غيlet initializationPromise = null;
+  app.get('*',(req,res)=>{if(req.path.startsWith('/api/'))return res.status(404).json({error:'المسار غير موجود.'});res.sendFile(path.join(dist,'index.html'));});
+}
+
+let initializationPromise = null;
 
 async function initializeFieldFlow(options = {}) {
   if (!initializationPromise) {
@@ -607,13 +610,12 @@ async function initializeFieldFlow(options = {}) {
 app.initializeFieldFlow = initializeFieldFlow;
 module.exports = app;
 
-// Local development: preserve the existing npm start behavior.
 if (require.main === module) {
   initializeFieldFlow({ runMigrations: true })
     .then(() => {
       app.listen(PORT, '0.0.0.0', () => {
         console.log(`FieldFlow listening on :${PORT}`);
-        console.log(`Voice AI provider: ${process.env.GROQ_API_KEY?.trim() ? 'Groq Cloud' : 'DISABLED - add GROQ_API_KEY to .env'}`);
+        console.log(`Voice AI provider: ${process.env.GROQ_API_KEY?.trim() ? 'Groq Cloud' : 'DISABLED'}`);
         console.log('API version: 1.3.0');
       });
     })

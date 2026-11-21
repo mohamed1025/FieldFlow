@@ -90,3 +90,5 @@ Thumbs.db
 *.backup-*
 supabase/.temp/
 ersmohamedDesktopsyntrix-serviceops
+.vercel
+.env*
